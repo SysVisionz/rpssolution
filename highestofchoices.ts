@@ -22,14 +22,22 @@ export default class Winner extends Player {
       scissors: 'rock',
     };
 
-    // if (result !== 'win') {
-    //   this.choice = results[them];
-    // }
-
     this.choiceCounter[them]++;
 
     if (result !== 'win') {
       const madeChoices = Object.entries(this.choiceCounter);
+      const only = madeChoices.reduce((choice: string | null | undefined, curr) => {
+        if (curr[1]){
+          if (choice){
+            return null
+          }
+          return curr[0]
+        }
+        return results[choice] as Choice
+      }, null)
+      if (only){
+        return only as Choice
+      }
       //420
       const highestChoices: Choice[] = madeChoices
         .sort((a, b) => a[1] - b[1])
